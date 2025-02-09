@@ -5,11 +5,11 @@ const path = require('path');
 const app = express();
 
 app.use(express.json());
-app.use(express.static('/home/chsd/frontend-learning/dist'));
-app.use(express.static('/home/chsd/frontend-learning/src'));
+app.use(express.static(path.resolve(__dirname, '../dist')));
+app.use(express.static(path.resolve(__dirname, '../src')));
 
 app.get('/*', (req, res) => {
-    res.sendFile('/home/chsd/frontend-learning/src/index.html');
+    res.sendFile(path.join(__dirname, '../src', 'index.html'));
 });
 
 app.listen(8001, () => {
