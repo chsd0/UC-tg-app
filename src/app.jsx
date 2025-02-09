@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated } from '@react-spring/web';
 import { useDrag } from 'react-use-gesture';
-import CircularProgress from './CircularProgress';
 import Choose from './choose';
+import BottomSlider from './bottomSlider';
 
 export function App() {
     return (
@@ -18,43 +18,8 @@ function Foo() {
         collapsed: false,
     }
 
-    const [currentState, setState] = useState(state);
+    // const [currentState, setState] = useState(state);
     const [switchToSurvey, setSwitch] = useState(false);
-
-    // const onSwipeLeft = (refs, direction) => {
-    //     const [statsRef, questionRef, diagramRef, quoteRef] = refs;
-    //     if(!currentState.collapsed){
-    //         const initialValues = {...currentState.questions[0].swipes};
-    //         if(direction === 'left') {
-    //             initialValues.left += 1;
-    //         } else {
-    //             initialValues.right += 1;
-    //         }
-    //         currentState.questions[0].swipes.left = 1;
-    //         currentState.questions[0].swipes.right = 1;
-    //         questionRef.current.className = 'question-section collapsed';
-
-    //         setState({...currentState, questions: currentState.questions});
-    //         setTimeout(() => {
-    //             statsRef.current.className = 'statistics active';
-    //             quoteRef.current.className = 'statistics__quote active';
-    //             diagramRef.current.className = 'statistics__diagram active';
-    //             setTimeout(() => {
-    //                 currentState.questions[0].swipes = initialValues;
-    //                 setState({questions: currentState.questions, collapsed: true});
-    //             }, 300);
-    //         }, 500);
-    //     } else {
-    //         quoteRef.current.className = 'statistics__quote';
-    //         diagramRef.current.className = 'statistics__diagram';
-    //         setTimeout(() => {
-    //             statsRef.current.className = 'statistics hidden';
-    //             questionRef.current.className = 'question-section';
-    //             currentState.questions = currentState.questions.slice(1);
-    //             setState({...currentState, collapsed: false});
-    //         }, 800);   
-    //     }
-    // };
 
     const onSwipeRight = () => {
         if(!switchToSurvey) {
@@ -122,16 +87,16 @@ function Card({ /*onSwipeLeft,*/ onSwipeRight }) {
                 touchAction: 'none',
             }}
         >
-            {/* <section className='card__profile-statistics profile-statistics'>
+            <section className='card__profile-statistics profile-statistics'>
                 <div className='profile-statistics__coin-balance'>
-                    <img className='profile-statistics__coin-icon'/>
-                    <span className='profile-statistics__coin-amount'></span>
+                    <img className='profile-statistics__coin-icon' src='static/pic/uc-incon.jpeg'/>
+                    <span className='profile-statistics__coin-amount'>240 UC</span>
                 </div>
                 <span className='profile-statistics__daily'>
-                    <p className='profile-statistics__daily-bonus'>Daily bonus: </p>
-                    <p className='profile-statistics__daily-profit'>Daily profit: </p>
+                    <p className='profile-statistics__daily-bonus'>Daily bonus: 25</p>
+                    <p className='profile-statistics__daily-profit'>Daily profit: 1</p>
                 </span>
-                <p className='profile-statistics__force'>Force: </p>
+                <p className='profile-statistics__force'>Force: 5</p>
             </section>
             <section className='card__main-section main-section'>
                 <aside className="main-section__friends">
@@ -143,7 +108,8 @@ function Card({ /*onSwipeLeft,*/ onSwipeRight }) {
                     <button className='boosters__daily-bonus-button'>Daily bonus</button>
                     <button className='boosters__force-button'>Force</button>
                 </aside>
-            </section> */}
+            </section>
+            <BottomSlider/>
         </animated.article>
     );
 }

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSpring, animated } from 'react-spring';
 import isEqual from 'lodash/isEqual';
 
 const Choose = ({ backButtonCallback }) => {

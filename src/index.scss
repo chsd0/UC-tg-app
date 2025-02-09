@@ -3,6 +3,11 @@
     src: url(static/fonts/PTSansCaption-Regular.ttf);
 }
 
+@font-face {
+    font-family: bold-font;
+    src: url(static/fonts/PTSansCaption-Bold.ttf);
+}
+
 * {
     box-sizing: border-box;
     font-family: basic-font;
@@ -34,8 +39,8 @@ body {
         display: flex;
         align-items: center;
         flex-direction: column;
-        width: 300px;
-        height: 400px;
+        width: 320px;
+        height: 450px;
         padding: 30px 15px;
         border-radius: 20px;
         background-color: #838383;
@@ -55,6 +60,94 @@ body {
     height: 27%;
     background-color: white;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+
+    &__coin-balance {
+        align-items: center;
+        display: flex;
+        gap: 10px;
+    }
+
+    &__coin-icon {
+        width: 26px;
+        height: 26px;
+        border-radius: 100%;
+    }
+
+    &__coin-amount {
+        font-family: bold-font;
+    }
+
+    &__daily {
+        display: flex;
+        font-size: 12px;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    &__force {
+        margin: 0;
+        font-size: 12px;
+    }
+}
+
+.main-section {
+    display: flex;
+    width: 95%;
+    gap: 20px;
+    margin-top: 10px;
+
+    &__friends {
+        width: 50%;
+        margin-top: 31px;
+
+        &-button {
+            width: 100%;
+            height: 35px;
+        }
+    }
+}
+
+.boosters {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+    gap: 10px;
+
+    &__daily-profit-button,
+    &__daily-bonus-button,
+    &__force-button {
+        width: 100%;
+        height: 35px;
+    }
+}
+
+.bottom-slider {
+    width: 100%;
+    background-color: white;
+    border-radius: 20px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+
+    &__text {
+        margin: 0;
+    }
+}
+
+.slider {
+    display: flex;
+
+    &__big-line-outline {
+        width: 90%;
+        background-color: black;
+    }
 }
 
 .choose {
