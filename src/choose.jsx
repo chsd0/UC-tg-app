@@ -186,8 +186,6 @@ const Choose = ({ backButtonCallback }) => {
             setTimeout(() => {
                 imgLowerRef.current.classList.remove('hide');
                 textLowerRef.current.classList.remove('hide');
-                // imgLowerRef.current.classList.add('show');
-                // textLowerRef.current.classList.add('show');
             }, 500);
             return;
         }
@@ -196,8 +194,6 @@ const Choose = ({ backButtonCallback }) => {
         setTimeout(() => {
             imgUpperRef.current.classList.remove('hide');
             textUpperRef.current.classList.remove('hide');
-            // imgUpperRef.current.classList.add('show');
-            // textUpperRef.current.classList.add('show');
         }, 500);
     }
 

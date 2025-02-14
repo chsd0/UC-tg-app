@@ -2,7 +2,13 @@ import React, { useState, useRef } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import { useDrag } from 'react-use-gesture';
 import Choose from './choose';
+import SwipeableViews from 'react-swipeable-views';
 import BottomSlider from './bottomSlider';
+import StatsScreen from './statsScreen';
+import GamesScreen from './gamesScreen';
+import Modal from './modal';
+import Rewards from './rewards';
+import Friends from './friends';
 
 export function App() {
     return (
@@ -10,44 +16,101 @@ export function App() {
     );
 }
 
-const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
-
 function Foo() {
+    const [chooseActive, setChooseActive] = useState(false);
 
-    const state = {
-        collapsed: false,
-    }
-
-    // const [currentState, setState] = useState(state);
-    const [switchToSurvey, setSwitch] = useState(false);
-
-    const onSwipeRight = () => {
-        if(!switchToSurvey) {
-            setTimeout(() => {
-                setSwitch(true);
-            }, 300);
+    const switchToChoose = () => {
+        if(!chooseActive) {
+            setChooseActive(true);
         }
     };
 
+    // friendsOverReward = null - модалка неактивна
+    // = true - модалка друзей
+    // = false - модалка наград
+    const [friendsOverReward, setFriendsOverReard] = useState(null);
+
+    const [rewardVisibility, setRewardVisibility] = useState(false);
+    const [friendsVisibility, setFriendsVisibility] = useState(false);
+
+    const onForceButtonClick = () => {
+        if(friendsOverReward !== false) {
+            setFriendsOverReard(false);
+        }
+        if(!rewardVisibility) {
+            setRewardVisibility(true);
+        }
+    }
+
+    const onFriendsButtonClick = () => {
+        if(friendsOverReward !== true) {
+            setFriendsOverReard(true);
+        }
+        if(!friendsVisibility) {
+            setFriendsVisibility(true);
+        }
+    }
+
     const backButtonCallback = () => {
-        setSwitch(false);
-    };
+        if(chooseActive) {
+            setChooseActive(false);
+        }
+    }
+
+    const [index, setIndex] = useState(1);
+
+    const views = [
+        <StatsScreen key='1'/>,
+        <Card key='2' 
+              onFriendsButtonClick={onFriendsButtonClick}
+              onForceButtonClick={onForceButtonClick}
+        />,
+        <GamesScreen key='3'
+            switchToChoose={switchToChoose}/>,
+    ]
+
+    //первая проверка идет на активность игры, далее смотрим по наличии модалки, если есть - смотрим какая активна
+    const chooseActiveScreen = () => {
+        return (
+            chooseActive ? 
+            <Choose backButtonCallback={backButtonCallback}/> 
+            :
+            friendsOverReward === null ? 
+            <></> 
+            : 
+            friendsOverReward ? 
+            <Modal visibility={friendsVisibility} setVisibility={setFriendsVisibility}>
+                <Friends/>
+            </Modal>
+            :
+            <Modal visibility={rewardVisibility} setVisibility={setRewardVisibility}>
+                <Rewards/>
+            </Modal>
+        )
+    }
 
     return (
         <div className="main">
-            {switchToSurvey ?
-                <Choose backButtonCallback={backButtonCallback}/> 
-                :
-                <Card
-                    //onSwipeLeft={onSwipeLeft}
-                    onSwipeRight={onSwipeRight}
-                />
+            {chooseActiveScreen()}
+            {chooseActive ? <></>
+            :
+            <article className="card__wrapper">
+                <SwipeableViews
+                    resistance
+                    index={index}
+                    onChangeIndex={setIndex}
+                    enableMouseEvents
+                >
+                    {views}
+                </SwipeableViews>
+                <BottomSlider/>
+            </article>
             }
         </div>
     );
 }
 
-function Card({ /*onSwipeLeft,*/ onSwipeRight }) {
+function Card({ onFriendsButtonClick, onForceButtonClick }) {
     const statsRef = useRef(null);
     const questionRef = useRef(null);
     const diagramRef = useRef(null);
@@ -55,61 +118,63 @@ function Card({ /*onSwipeLeft,*/ onSwipeRight }) {
 
     const refs = [statsRef, questionRef, diagramRef,quoteRef];
 
-    const [{ x, y, rotate }, set] = useSpring(() => ({
-        x: 0,
-        y: 0,
-        rotate: 0,
-        config: { mass: 1, tension: 350, friction: 40 },
-    }));
-
-    const bind = useDrag(({ down, movement: [mx, my], direction: [dx, dy], velocity }) => {
-        if (down) {
-            const clampedX = clamp(mx, -150, 150);
-            const clampedY = clamp(my, -50, 50);
-            set({ x: clampedX, y: clampedY, rotate: clampedX / 10 });
-        } else {
-            if (mx > 100) {
-                onSwipeRight(refs, 'right');
-            } else if (mx < -100) {
-                onSwipeLeft(refs, 'left');
-            }
-            set.start({ x: 0, y: 0, rotate: 0 });
-        }
-    });
-
-
     return (
-        <animated.article
-            className="card__wrapper"
-            {...bind()}
-            style={{
-                transform: x.to((x) => `translate3d(${x}px, ${y.get()}px, 0) rotate(${rotate.get()}deg)`),
-                touchAction: 'none',
-            }}
-        >
+        <div className='card__content-wrapper'>
             <section className='card__profile-statistics profile-statistics'>
                 <div className='profile-statistics__coin-balance'>
-                    <img className='profile-statistics__coin-icon' src='static/pic/uc-incon.jpeg'/>
-                    <span className='profile-statistics__coin-amount'>240 UC</span>
+                    <span className='profile-statistics__coin-amount'>
+                        <div className="profile-statistics__coin-amount-inner-wrapper">
+                        240 <span className='profile-statistics__uc'>UC</span>
+                        </div>
+                    </span>
                 </div>
                 <span className='profile-statistics__daily'>
-                    <p className='profile-statistics__daily-bonus'>Daily bonus: 25</p>
-                    <p className='profile-statistics__daily-profit'>Daily profit: 1</p>
+                    <div className='profile-statistics__daily-bonus'>
+                        <div className='profile-statistics__daily-bonus-inner-wrapper'>
+                            <div className="profile-statistics__daily-bonus-text">
+                                Daily bonus: <span className='highlight'>25</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='profile-statistics__daily-profit'>
+                        <div className='profile-statistics__daily-profit-inner-wrapper'>
+                            <div className='profile-statistics__daily-profit-text'>
+                                Daily profit: <span className='highlight'>1</span>
+                            </div>
+                        </div>
+                    </div>
                 </span>
-                <p className='profile-statistics__force'>Force: 5</p>
+                <div className='profile-statistics__force'>
+                    <div className='profile-statistics__force-inner-wrapper'>
+                        <div className='profile-statistics__force-text'>
+                            Force: <span className='highlight'>5</span>
+                        </div>
+                    </div>
+                </div>
             </section>
             <section className='card__main-section main-section'>
-                <aside className="main-section__friends">
-                    <button className='main-section__friends-button'>My friends</button>
-                </aside>
                 <aside className='main-section__boosters boosters'>
-                    <span className='boosters__text'>Boosters</span>
-                    <button className='boosters__daily-profit-button'>Daily profit</button>
-                    <button className='boosters__daily-bonus-button'>Daily bonus</button>
-                    <button className='boosters__force-button'>Force</button>
+                    <div className="boosters__inner-wrapper">
+                        <div className="boosters__content">
+                        <span className='boosters__text'>Boosters</span>
+                        <div className='boosters__daily-profit-wrapper'>
+                            <button className='boosters__daily-profit-button'>Daily profit</button>
+                        </div>
+                        <div className='boosters__daily-bonus-wrapper'>
+                            <button className='boosters__daily-bonus-button'>Daily bonus</button>
+                        </div>
+                        <div className='boosters__force-wrapper'>
+                            <button className='boosters__force-button' onClick={onForceButtonClick}>Force</button>
+                        </div>
+                        </div>
+                    </div>
+                </aside>
+                <aside className="main-section__friends">
+                    <div className='main-section__friends-wrapper'>
+                        <button className='main-section__friends-button' onClick={onFriendsButtonClick}>My friends</button>
+                    </div>
                 </aside>
             </section>
-            <BottomSlider/>
-        </animated.article>
+        </div>
     );
 }
