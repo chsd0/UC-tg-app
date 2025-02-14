@@ -87,6 +87,7 @@ body {
 
         & > :first-child {
             width: 100%;
+            height: 100%;
         }
     }
 
@@ -632,12 +633,51 @@ body {
         }
     }
 
+    &__main-circle {
+        width: 12px;
+        height: 12px;
+        background-color: #9156FE;
+        border-radius: 100%;
+        z-index: 10;
+        transition: all 0.3s ease;
+
+        &-outline {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            padding: 4px;
+            border-radius: 100%;
+            z-index: 9;
+            transition: all 0.3s ease;
+            top: 60%;
+            right: 0;
+            left: 0;
+
+            &.left {
+                left: 19.29%;
+                right: 75.6%;
+            }
+
+            &.right {
+                right: 19.29%;
+                left: 75.6%;
+            }
+        }
+    }
+
     &__circle {
         width: 8px;
         height: 8px;
         background-color: white;
         border-radius: 100%;
         z-index: 9;
+        transition: all 0.3s ease;
+
+        &.big {
+            width: 14px;
+            height: 14px;
+        }
 
         &-outline {
             position: absolute;
@@ -647,16 +687,21 @@ body {
 
             &.left {
                 left: 20%;
-                top: 75%;
-            }
-
-            &.center {
-                top: 75%;
             }
 
             &.right {
                 right: 20%;
+            }
+
+            &.left,
+            &.right,
+            &.center {
                 top: 75%;
+                transition: all 0.2s ease;
+                
+                &.big {
+                    top: 67%;
+                }
             }
         }
     }
@@ -857,6 +902,7 @@ body {
         box-shadow: 0 5px 5px rgba(0, 0, 0, 0.301);
         transition: box-shadow 0.5s ease;
         user-select: none;
+        z-index: 100;
     }
 
     &__return-to-menu {
@@ -893,12 +939,12 @@ body {
     }
 
     &__first-option {
-        background-color: rgba(247, 59, 59, 0.89);
+        background-color: rgba(247, 59, 59, 1);
         border-radius: 20px 20px 0 0;
     }
 
     &__second-option {
-        background-color: rgba(69, 69, 252, 0.801);
+        background-color: rgba(69, 69, 252, 1);
         border-radius: 0 0 20px 20px;
     }
 

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useSpring, animated } from '@react-spring/web';
-import { useDrag } from 'react-use-gesture';
+import { useFetch } from './Ajax';
 import Choose from './choose';
 import SwipeableViews from 'react-swipeable-views';
 import BottomSlider from './bottomSlider';
@@ -92,8 +91,6 @@ function Foo() {
     return (
         <div className="main">
             {chooseActiveScreen()}
-            {chooseActive ? <></>
-            :
             <article className="card__wrapper">
                 <SwipeableViews
                     resistance
@@ -103,20 +100,26 @@ function Foo() {
                 >
                     {views}
                 </SwipeableViews>
-                <BottomSlider/>
+                <BottomSlider index={index}
+                              setIndex={setIndex}
+                />
             </article>
-            }
         </div>
     );
 }
 
 function Card({ onFriendsButtonClick, onForceButtonClick }) {
-    const statsRef = useRef(null);
-    const questionRef = useRef(null);
-    const diagramRef = useRef(null);
-    const quoteRef = useRef(null);
+    // Пример
+    // const {data, loading, error} - пока loading = true, data неопределена, поэтому использовать нельзя
+    // чтобы использовать в коде делаем что то типо loading ? 'loading...' : data
+    // пример на 130 строке
+    // Принимает функция:
+    // метод запроса - 'GET', 'POST', 'PUT', 'DELETE'
+    // информация в json если надо
+    // эндпоинт обращения
+    // базовый урл задается в Ajax.js
 
-    const refs = [statsRef, questionRef, diagramRef,quoteRef];
+    // const {data, loading, error} = useFetch('GET', undefined,'/api/data'); - использование
 
     return (
         <div className='card__content-wrapper'>
@@ -124,7 +127,7 @@ function Card({ onFriendsButtonClick, onForceButtonClick }) {
                 <div className='profile-statistics__coin-balance'>
                     <span className='profile-statistics__coin-amount'>
                         <div className="profile-statistics__coin-amount-inner-wrapper">
-                        240 <span className='profile-statistics__uc'>UC</span>
+                        240 <span className='profile-statistics__uc'>UC {/* loading ? 'UC' : data.message - применение*/}</span>
                         </div>
                     </span>
                 </div>

@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "@react-spring/web": "^9.7.5",
+    "@telegram-apps/sdk": "^3.4.0",
     "css-loader": "^7.1.2",
     "express": "^4.21.2",
     "lodash": "^4.17.21",
