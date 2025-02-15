@@ -23,6 +23,31 @@ const StatsScreen = () => {
             balance: 500000,
             imgUrl: '/static/pic/gofman.jpg',
             place: 4,
+        }, {
+            name: 'Ivan Xyian',
+            balance: 500000,
+            imgUrl: '/static/pic/gofman.jpg',
+            place: 5,
+        }, {
+            name: 'Ivan Xyian',
+            balance: 500000,
+            imgUrl: '/static/pic/gofman.jpg',
+            place: 6,
+        }, {
+            name: 'Ivan Xyian',
+            balance: 500000,
+            imgUrl: '/static/pic/gofman.jpg',
+            place: 7,
+        }, {
+            name: 'Ivan Xyian',
+            balance: 500000,
+            imgUrl: '/static/pic/gofman.jpg',
+            place: 8,
+        }, {
+            name: 'Ivan Xyian',
+            balance: 500000,
+            imgUrl: '/static/pic/gofman.jpg',
+            place: 9,
         }
     ]
     return (

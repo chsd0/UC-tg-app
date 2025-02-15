@@ -1,4 +1,5 @@
 import React from 'react';
+import Friend from './friendRow';
 
 const Friends = () => {
     return (
@@ -17,14 +18,13 @@ const Friends = () => {
                     </div>
                 </div>
             </div>
-            <div className='friends__people'>
-                <div className='friends__people-inner-wrapper'>
-                    <div className="friends__people-content">
-                        <span className='friends__user-name'>UserName</span>
-                        <span className='friends__user-balance'>UC Balance</span>
-                        <span className='friends__user-bonus'>+250</span>
-                    </div>
-                </div>
+            <div className='friends__wrapper'>
+                <Friend userName={'username'} balance={100} bonus={250}/>
+                <Friend userName={'username'} balance={100} bonus={250}/>
+                <Friend userName={'username'} balance={100} bonus={250}/>
+                <Friend userName={'username'} balance={100} bonus={250}/>
+                <Friend userName={'username'} balance={100} bonus={250}/>
+                <Friend userName={'username'} balance={100} bonus={250}/>
             </div>
             <div className="friends__buttons">
                 <button className='friends__invite-button'>Прямое приглашение</button>

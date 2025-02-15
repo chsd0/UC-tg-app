@@ -24,30 +24,39 @@ function Foo() {
         }
     };
 
-    // friendsOverReward = null - модалка неактивна
-    // = true - модалка друзей
-    // = false - модалка наград
-    const [friendsOverReward, setFriendsOverReard] = useState(null);
+    const [isModalOpen, setModalOpen] = useState(false);
+    const [modalContent, setModalContent] = useState(null);
 
-    const [rewardVisibility, setRewardVisibility] = useState(false);
-    const [friendsVisibility, setFriendsVisibility] = useState(false);
+    const onProfitButtonClick = () => {
+        setModalContent({
+            tag: <Rewards/>,
+            ref: 'Rewards'
+        });
+        setModalOpen(true);
+    }
+
+    const onBonusButtonClick = () => {
+        setModalContent({
+            tag: <Rewards/>,
+            ref: 'Rewards'
+        });
+        setModalOpen(true);
+    }
 
     const onForceButtonClick = () => {
-        if(friendsOverReward !== false) {
-            setFriendsOverReard(false);
-        }
-        if(!rewardVisibility) {
-            setRewardVisibility(true);
-        }
+        setModalContent({
+            tag: <Rewards/>,
+            ref: 'Rewards'
+        });
+        setModalOpen(true);
     }
 
     const onFriendsButtonClick = () => {
-        if(friendsOverReward !== true) {
-            setFriendsOverReard(true);
-        }
-        if(!friendsVisibility) {
-            setFriendsVisibility(true);
-        }
+        setModalContent({
+            tag: <Friends/>,
+            ref: 'Friends'
+        });
+        setModalOpen(true);
     }
 
     const backButtonCallback = () => {
@@ -63,6 +72,8 @@ function Foo() {
         <Card key='2' 
               onFriendsButtonClick={onFriendsButtonClick}
               onForceButtonClick={onForceButtonClick}
+              onBonusButtonClick={onBonusButtonClick}
+              onProfitButtonClick={onProfitButtonClick}
         />,
         <GamesScreen key='3'
             switchToChoose={switchToChoose}/>,
@@ -74,16 +85,11 @@ function Foo() {
             chooseActive ? 
             <Choose backButtonCallback={backButtonCallback}/> 
             :
-            friendsOverReward === null ? 
-            <></> 
-            : 
-            friendsOverReward ? 
-            <Modal visibility={friendsVisibility} setVisibility={setFriendsVisibility}>
-                <Friends/>
-            </Modal>
+            modalContent === null ? 
+            <></>
             :
-            <Modal visibility={rewardVisibility} setVisibility={setRewardVisibility}>
-                <Rewards/>
+            <Modal visibility={isModalOpen} setVisibility={setModalOpen} fit={modalContent.ref === 'Friends' ? true : false}> 
+                {modalContent.tag}
             </Modal>
         )
     }
@@ -108,7 +114,7 @@ function Foo() {
     );
 }
 
-function Card({ onFriendsButtonClick, onForceButtonClick }) {
+function Card({ onFriendsButtonClick, onForceButtonClick, onProfitButtonClick, onBonusButtonClick }) {
     // Пример
     // const {data, loading, error} - пока loading = true, data неопределена, поэтому использовать нельзя
     // чтобы использовать в коде делаем что то типо loading ? 'loading...' : data
@@ -161,10 +167,10 @@ function Card({ onFriendsButtonClick, onForceButtonClick }) {
                         <div className="boosters__content">
                         <span className='boosters__text'>Boosters</span>
                         <div className='boosters__daily-profit-wrapper'>
-                            <button className='boosters__daily-profit-button'>Daily profit</button>
+                            <button className='boosters__daily-profit-button' onClick={onProfitButtonClick}>Daily profit</button>
                         </div>
                         <div className='boosters__daily-bonus-wrapper'>
-                            <button className='boosters__daily-bonus-button'>Daily bonus</button>
+                            <button className='boosters__daily-bonus-button' onClick={onBonusButtonClick}>Daily bonus</button>
                         </div>
                         <div className='boosters__force-wrapper'>
                             <button className='boosters__force-button' onClick={onForceButtonClick}>Force</button>
